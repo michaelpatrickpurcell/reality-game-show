@@ -1,0 +1,26 @@
+\documentclass{standalone}
+
+\usepackage{realitygameshow}
+
+
+\setmainfont[Scale=1.0]{Tex Gyre Heros}
+\setmainfont[Scale=1.0]{Graduate}
+\setmainfont[Scale=1.0]{Orbitron-Bold}
+\begin{document}
+\begin{tikzpicture}
+\Huge
+\path (-105mm, -148.5mm) -- (105mm, 148.5mm);
+\pic at (\horizdist,\vertdist) {uniformcard={lightgray}{lightgray}};
+\pic at (0,\vertdist) {uniformcard={lightgray}{lightgray}};
+\pic at (-\horizdist,\vertdist) {uniformcard={lightgray}{lightgray}};
+
+\pic at (\horizdist,0) {uniformcard={lightgray}{lightgray}};
+\pic at (0,0) {uniformcard={lightgray}{lightgray}};
+\pic at (-\horizdist,0) {uniformcard={lightgray}{lightgray}};
+
+\pic at (\horizdist,-\vertdist) {uniformcard={lightgray}{lightgray}};
+\pic at (0,-\vertdist) {uniformcard={lightgray}{lightgray}};
+\pic at (-\horizdist,-\vertdist) {uniformcard={lightgray}{lightgray}};
+
+\end{tikzpicture}
+\end{document}

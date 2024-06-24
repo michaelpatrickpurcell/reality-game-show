@@ -1,0 +1,22 @@
+\documentclass{standalone}
+
+\usepackage{realitygameshow}
+
+\begin{document}
+\begin{tikzpicture}
+\Huge
+\path (-105mm, -148.5mm) -- (105mm, 148.5mm);
+\pic at (\horizdist,\vertdist) {uniformcard={blue}{blue}};
+\pic at (0,\vertdist) {uniformcard={blue}{blue}};
+\pic at (-\horizdist,\vertdist) {uniformcard={blue}{blue}};
+
+\pic at (\horizdist,0) {uniformcard={blue}{blue}};
+\pic at (0,0) {uniformcard={blue}{blue}};
+\pic at (-\horizdist,0) {uniformcard={lightgray}{lightgray}};
+
+\pic at (\horizdist,-\vertdist) {uniformcard={lightgray}{lightgray}};
+\pic at (0,-\vertdist) {uniformcard={lightgray}{lightgray}};
+\pic at (-\horizdist,-\vertdist) {uniformcard={lightgray}{lightgray}};
+%
+\end{tikzpicture}
+\end{document}

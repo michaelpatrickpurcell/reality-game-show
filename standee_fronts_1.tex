@@ -1,0 +1,22 @@
+\documentclass{standalone}
+
+\usepackage{realitygameshow}
+
+\begin{document}
+\begin{tikzpicture}
+\Huge
+\path (-105mm, -148.5mm) -- (105mm, 148.5mm);
+\pic at (-\horizdist,\vertdist) {competitorstandee={runningman.png}{black}};
+\pic at (0,\vertdist) {competitorstandee={wrestlingman.png}{black}};
+\pic at (\horizdist,\vertdist) {competitorstandee={weightliftingwoman2b.png}{black}};
+%
+\pic at (-\horizdist,0) {competitorstandee={yogawoman.png}{black}};
+\pic at (0,0) {competitorstandee={climbingman.png}{black}};
+\pic at (\horizdist,0) {competitorstandee={runningwoman.png}{black}};
+%
+\pic at (-\horizdist,-\vertdist) {competitorstandee={runningman2.png}{black}};
+\pic at (0,-\vertdist) {competitorstandee={runningwoman2.png}{black}};
+\pic at (\horizdist,-\vertdist) {competitorstandee={bodybuilderman.png}{black}};
+
+\end{tikzpicture}
+\end{document}

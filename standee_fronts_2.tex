@@ -1,0 +1,22 @@
+\documentclass{standalone}
+
+\usepackage{realitygameshow}
+
+\begin{document}
+\begin{tikzpicture}
+\Huge
+\path (-105mm, -148.5mm) -- (105mm, 148.5mm);
+\pic at (-\horizdist,\vertdist) {competitorstandee={weightliftingman2.png}{black}};
+\pic at (0,\vertdist) {challengestandee={red_gem}{black}};
+\pic at (\horizdist,\vertdist) {challengestandee={black_gem}{black}};
+%
+\pic at (-\horizdist,0) {challengestandee={blue_gem}{black}};
+\pic at (0,0) {challengestandee={green_gem}{black}};
+\pic at (\horizdist,0) {challengestandee={red_gem}{black}};
+%
+\pic at (-\horizdist,-\vertdist) {challengestandee={black_gem}{black}};
+\pic at (0,-\vertdist) {challengestandee={blue_gem}{black}};
+\pic at (\horizdist,-\vertdist) {challengestandee={green_gem}{black}};
+
+\end{tikzpicture}
+\end{document}

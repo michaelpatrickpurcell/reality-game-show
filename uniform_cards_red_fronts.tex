@@ -1,0 +1,26 @@
+\documentclass{standalone}
+
+\usepackage{realitygameshow}
+
+
+\setmainfont[Scale=1.0]{Tex Gyre Heros}
+\setmainfont[Scale=1.0]{Graduate}
+\setmainfont[Scale=1.0]{Orbitron-Bold}
+\begin{document}
+\begin{tikzpicture}
+\Huge
+\path (-105mm, -148.5mm) -- (105mm, 148.5mm);
+\pic at (\horizdist,\vertdist) {blankcard={red}};
+\pic at (0,\vertdist) {blankcard={red}};
+\pic at (-\horizdist,\vertdist) {blankcard={red}};
+
+\pic at (-\horizdist,0) {blankcard={red}};
+\pic at (0,0) {blankcard={red}};
+\pic at (\horizdist,0) {challengestandee={red_gem}{black}};
+%
+\pic at (-\horizdist,-\vertdist) {challengestandee={black_gem}{black}};
+\pic at (0,-\vertdist) {challengestandee={blue_gem}{black}};
+\pic at (\horizdist,-\vertdist) {challengestandee={green_gem}{black}};
+%
+\end{tikzpicture}
+\end{document}

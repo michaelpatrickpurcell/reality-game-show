@@ -1,0 +1,22 @@
+\documentclass{standalone}
+
+\usepackage{realitygameshow}
+
+\begin{document}
+\begin{tikzpicture}
+%\Huge
+\path (-105mm, -148.5mm) -- (105mm, 148.5mm);
+\pic at (\horizdist,\vertdist) {competitorcard={Matthew}{runningman.png}{green_gem}{green_gem}{green_gem}{white}};
+\pic at (0,\vertdist) {competitorcard={Lachlan}{wrestlingman.png}{blue_gem}{blue_gem}{blue_gem}{white}};
+\pic at (-\horizdist,\vertdist) {competitorcard={Kimberly}{weightliftingwoman2b.png}{black_gem}{black_gem}{black_gem}{white}};
+
+\pic at (\horizdist,0) {competitorcard={Penelope}{yogawoman.png}{red_gem}{red_gem}{red_gem}{white}};
+\pic at (0,0) {competitorcard={Oscar}{climbingman.png}{red_gem}{black_gem}{black_gem}{white}};
+\pic at (-\horizdist,0) {competitorcard={Natalie}{runningwoman.png}{red_gem}{blue_gem}{blue_gem}{white}};
+
+\pic at (\horizdist,-\vertdist) {competitorcard={Samuel}{runningman2.png}{red_gem}{green_gem}{green_gem}{white}};
+\pic at (0,-\vertdist) {competitorcard={Rebecca}{runningwoman2.png}{black_gem}{blue_gem}{blue_gem}{white}};
+\pic at (-\horizdist,-\vertdist) {competitorcard={Xavier}{bodybuilderman.png}{black_gem}{green_gem}{green_gem}{white}};
+
+\end{tikzpicture}
+\end{document}

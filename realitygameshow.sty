@@ -1,0 +1,621 @@
+\usepackage[dvipsnames]{xcolor}
+\definecolor{SunriseBlue}{HTML}{A1A6CF}
+\definecolor{brass}{HTML}{FEDB4C}
+\definecolor{pine}{HTML}{FCDD68}
+\definecolor{redfabric}{HTML}{CB0222}
+\usepackage{amssymb}
+
+\usepackage{contour}
+\contourlength{0.25mm}
+\contournumber{1024}
+
+\usepackage{tikz}
+\usetikzlibrary{math}
+\usetikzlibrary{shapes}
+\usetikzlibrary{calc}
+
+\usepackage{calc}
+\usepackage{fontspec}
+\usepackage{lilyglyphs}
+\lilyGlobalOptions{scale=0.8, raise=0.2}
+\newcommand{\myflat}{\kern 1pt \flat}
+
+\newlength{\cardwidth}
+\newlength{\cardheight}
+\newlength{\bleed}
+\newlength{\horizspace}
+\newlength{\vertspace}
+\newlength{\vertdist}
+\newlength{\horizdist}
+
+\setlength{\cardwidth}{2.5in}
+\setlength{\cardheight}{3.5in}
+\setlength{\bleed}{0.0625in}
+\setlength{\horizspace}{0.0625in}
+\setlength{\horizdist}{\cardwidth + 2\bleed + \horizspace}
+\setlength{\vertspace}{0.0625in}
+\setlength{\vertdist}{\cardheight + 2\bleed + \vertspace}
+
+\tikzset{red_gem/.pic={
+	\node at (0,0) {\includegraphics[height=1.75in]{Images/red_gem.png}};
+}}
+
+\tikzset{black_gem/.pic={
+	\node at (0,0) {\includegraphics[height=1.75in]{Images/black_gem.png}};
+}}
+
+\tikzset{blue_gem/.pic={
+	\node at (0,0) {\includegraphics[height=1.75in]{Images/blue_gem2.png}};
+}}
+
+\tikzset{green_gem/.pic={
+	\node at (0,0) {\includegraphics[height=1.75in]{Images/green_gem2.png}};
+}}
+
+\tikzset{cardbackpattern/.pic={
+	\foreach \i in {-1.25in, -1.0in, -0.75in, -0.5in, -0.25in, 0in, 0.25in, 0.5in, 0.75in, 1.0in, 1.25in}
+		\foreach \j in {-1.75in, -1.5in, -1.25in, -1.0in, -0.75in, -0.5in, -0.25in, 0in, 0.25in, 0.5in, 0.75in, 1.0in, 1.25in, 1.5in, 1.75in}
+			\draw[ultra thick, black] (\i,\j) circle (0.105in);
+
+	\foreach \i in {-1.375in, -1.125in, -0.875in,-0.625in, -0.375in, -0.125in, 0.125in, 0.375in, 0.625in, 0.875in, 1.125in, 1.375in}
+		\foreach \j in {-1.875in, -1.625in, -1.375in, -1.125in, -0.875in, -0.625in, -0.375in, -0.125in, 0.125in, 0.375in, 0.625in, 0.875in, 1.125in, 1.375in, 1.625in, 1.875in}
+			\draw[ultra thick, black] (\i,\j) circle (0.105in);
+	\foreach \i in {-1.25in, -1.0in, -0.75in, -0.5in, -0.25in, 0in, 0.25in, 0.5in, 0.75in, 1.0in, 1.25in}
+		\foreach \j in {-1.75in, -1.5in, -1.25in, -1.0in, -0.75in, -0.5in, -0.25in, 0in, 0.25in, 0.5in, 0.75in, 1.0in, 1.25in, 1.5in, 1.75in}
+			\draw[thick, #1] (\i,\j) circle (0.105in);
+
+	\foreach \i in {-1.375in, -1.125in, -0.875in,-0.625in, -0.375in, -0.125in, 0.125in, 0.375in, 0.625in, 0.875in, 1.125in, 1.375in}
+		\foreach \j in {-1.875in, -1.625in, -1.375in, -1.125in, -0.875in, -0.625in, -0.375in, -0.125in, 0.125in, 0.375in, 0.625in, 0.875in, 1.125in, 1.375in, 1.625in, 1.875in}
+			\draw[thick, #1] (\i,\j) circle (0.105in);
+
+}}
+
+\tikzset{tick_box/.pic={\setmainfont{Graduate}\Large
+	\node[draw, thick, minimum width=1.0ex, minimum height=1.0ex, rounded corners=0.5mm, fill=white] (0,0) {};
+}}
+
+\tikzset{guidecross/.pic={
+	\draw[#1] (-\bleed,0) -- (\bleed,0);
+	\draw[#1] (0, -\bleed) -- (0, \bleed);
+}}
+
+\tikzset{cutguide/.pic={
+	\pic () at (-\cardwidth/2, \cardheight/2) {guidecross={#1}};
+	\pic () at (\cardwidth/2, \cardheight/2) {guidecross={#1}};
+	\pic () at (-\cardwidth/2, -\cardheight/2) {guidecross={#1}};
+	\pic () at (\cardwidth/2, -\cardheight/2) {guidecross={#1}};
+}}
+
+\tikzset{traitcutguide/.pic={
+	\pic () at (-\traitcardwidth/2, \traitcardheight/2) {guidecross={#1}};
+	\pic () at (\traitcardwidth/2, \traitcardheight/2) {guidecross={#1}};
+	\pic () at (-\traitcardwidth/2, -\traitcardheight/2) {guidecross={#1}};
+	\pic () at (\traitcardwidth/2, -\traitcardheight/2) {guidecross={#1}};
+}}
+
+\tikzset{cardoutlinedisplay/.pic={%
+		\begin{scope}
+		\clip[rounded corners=3mm] (-\cardwidth/2, 0in) --%
+		      (-\cardwidth/2, \cardheight/2) --%
+		      (\cardwidth/2, \cardheight/2) --%
+		      (\cardwidth/2, -\cardheight/2) --%
+		      (-\cardwidth/2, -\cardheight/2) --%
+		      cycle;
+		\path[draw, line width=1.5mm, rounded corners=3mm, fill=#1] (-\cardwidth/2, 0in) --%
+		      (-\cardwidth/2, \cardheight/2) --%
+		      (\cardwidth/2, \cardheight/2) --%
+		      (\cardwidth/2, -\cardheight/2) --%
+		      (-\cardwidth/2, -\cardheight/2) --%
+		      cycle;
+		\end{scope}
+}}
+
+\tikzset{blankcard/.pic={
+	\begin{scope}
+	\clip (-\cardwidth/2 - \bleed, 0in) --%
+	      (-\cardwidth/2 - \bleed, \cardheight/2 + \bleed) --%
+	      (\cardwidth/2 + \bleed, \cardheight/2 + \bleed) --%
+	      (\cardwidth/2 + \bleed, -\cardheight/2 - \bleed) --%
+	      (-\cardwidth/2 - \bleed, -\cardheight/2 - \bleed) --%
+	      cycle;
+	\path[fill=#1] (-\cardwidth/2 - \bleed, 0in) --%
+	      (-\cardwidth/2 - \bleed, \cardheight/2 + \bleed) --%
+	      (\cardwidth/2 + \bleed, \cardheight/2 + \bleed) --%
+	      (\cardwidth/2 + \bleed, -\cardheight/2 - \bleed) --%
+	      (-\cardwidth/2 - \bleed, -\cardheight/2 - \bleed) --%
+	      cycle;
+	\node[minimum height=3in, minimum width=2in, fill=white] at (0,0) {};
+\end{scope}
+
+}}
+
+\tikzset{pics/uniformcard/.style n args={2}{
+	code={
+	\begin{scope}
+	\clip (-\cardwidth/2 - \bleed, 0in) --%
+	      (-\cardwidth/2 - \bleed, \cardheight/2 + \bleed) --%
+	      (\cardwidth/2 + \bleed, \cardheight/2 + \bleed) --%
+	      (\cardwidth/2 + \bleed, -\cardheight/2 - \bleed) --%
+	      (-\cardwidth/2 - \bleed, -\cardheight/2 - \bleed) --%
+	      cycle;
+	% Pattern for card back
+	\path[fill=#1] (-\cardwidth/2 - \bleed, 0in) --%
+	      (-\cardwidth/2 - \bleed, \cardheight/2 + \bleed) --%
+	      (\cardwidth/2 + \bleed, \cardheight/2 + \bleed) --%
+	      (\cardwidth/2 + \bleed, -\cardheight/2 - \bleed) --%
+	      (-\cardwidth/2 - \bleed, -\cardheight/2 - \bleed) --%
+	      cycle;
+	\pic () at (0,0) {cardbackpattern={white}};
+	% Cutting guides for corners of the cards	
+	\pic () at (0,0) {cutguide={#2}};
+\end{scope}
+}}}
+
+\tikzset{pics/competitorstandee/.style n args={2}{%
+	code={
+		\begin{scope}
+		\clip (-\cardwidth/2 - \bleed, 0in) --%
+		      (-\cardwidth/2 - \bleed, \cardheight/2 + \bleed) --%
+		      (\cardwidth/2 + \bleed, \cardheight/2 + \bleed) --%
+		      (\cardwidth/2 + \bleed, -\cardheight/2 - \bleed) --%
+		      (-\cardwidth/2 - \bleed, -\cardheight/2 - \bleed) --%
+		      cycle;
+
+		% Pattern for card front
+		\node[minimum height=3.5in, minimum width=2.5in] () at (0,0) {\includegraphics[height=2.5in]{Images/#1}};	
+		\end{scope}
+		% Cutting guides for corners of the cards	
+		\pic () at (0,0) {cutguide={#2}};
+}}}
+
+\tikzset{pics/competitorcard/.style n args={6}{%
+	code={
+		\begin{scope}
+		\clip (-\cardwidth/2 - \bleed, 0in) --%
+		      (-\cardwidth/2 - \bleed, \cardheight/2 + \bleed) --%
+		      (\cardwidth/2 + \bleed, \cardheight/2 + \bleed) --%
+		      (\cardwidth/2 + \bleed, -\cardheight/2 - \bleed) --%
+		      (-\cardwidth/2 - \bleed, -\cardheight/2 - \bleed) --%
+		      cycle;
+		\path[fill=white] (-\cardwidth/2 - \bleed, 0in) --%
+		      (-\cardwidth/2 - \bleed, \cardheight/2 + \bleed) --%
+		      (\cardwidth/2 + \bleed, \cardheight/2 + \bleed) --%
+		      (\cardwidth/2 + \bleed, -\cardheight/2 - \bleed) --%
+		      (-\cardwidth/2 - \bleed, -\cardheight/2 - \bleed) --%
+		      cycle;
+
+		% Pattern for card front
+		\pic () at (0,0) {competitordetails={#1}{#2}{#3}{#4}{#5}};
+		\pic () at (0,-1.625in) {personality};
+	
+		\end{scope}
+		% Cutting guides for corners of the cards	
+		\pic () at (0,0) {cutguide={#6}};
+}}}
+
+\tikzset{pics/competitordetails/.style n args={5}{
+	code={
+		% Pattern for card front
+		\node[text width=2in, minimum width=2.25in, minimum height=0.5in, text centered, anchor=north, draw, thick, rounded corners=3mm, inner sep=0.125in] () at (0,1.625in) {{\setmainfont{Graduate}\Huge #1}};
+
+		\node[draw, thick, rounded corners=3mm, anchor=east, minimum height=1.75in, minimum width=1.5in] () at (1.125in,0.125in) {};	
+		\node[anchor=east, minimum height=1.75in, minimum width=1.5in] () at (1.125in,0.125in) {\includegraphics[height=1.5in]{Images/#2}};	
+		\node[draw, thick, rounded corners=3mm, inner sep=0.125in, anchor=west, minimum height=1.75in, minimum width=0.625in] () at (-1.125in,0.125in) {};%\includegraphics[height=1.5in]{Images/#2}};				
+			
+		\pic[scale=0.25, transform shape, anchor=north] () at (-0.8125in, 0.875in) {#3}; 
+		\pic[scale=0.25, transform shape] () at (-0.8125in, 0.125in) {#4}; 
+		\pic[scale=0.25, transform shape, anchor=south] () at (-0.8125in, -0.625in) {#5};
+}}}
+
+\tikzset{personality/.pic={
+	\node[draw, thick, text width=2in, minimum width=2.25in, minimum height=0.75in, anchor=south, fill=lightgray!0, rounded corners=3mm, inner sep=0.0625in] () at (0, 0) {{\setmainfont{Graduate}\normalsize
+	\begin{tabular}{@{\hskip 0.0em}l@{\hskip 1.0em}c@{\hskip 1em}c@{\hskip 1em}c@{\hskip 1em}c@{\hskip 1em}c}
+	{\rule{0.0ex}{1.75ex}\large Brave} & \raisebox{-0.125ex}{\Large\tikz{\pic {tick_box};}} & \raisebox{-0.125ex}{\Large\tikz{\pic {tick_box};}} & \raisebox{-0.125ex}{\Large\tikz{\pic {tick_box};}} & \raisebox{-0.125ex}{\Large\tikz{\pic {tick_box};}} & \raisebox{-0.125ex}{\Large\tikz{\pic {tick_box};}}\\
+	{\large Smart} & \raisebox{-0.125ex}{\Large\tikz{\pic {tick_box};}} & \raisebox{-0.125ex}{\Large\tikz{\pic {tick_box};}} & \raisebox{-0.125ex}{\Large\tikz{\pic {tick_box};}} & \raisebox{-0.125ex}{\Large\tikz{\pic {tick_box};}} & \raisebox{-0.125ex}{\Large\tikz{\pic {tick_box};}}\\
+	{\large Tough} & \raisebox{-0.125ex}{\Large\tikz{\pic {tick_box};}} & \raisebox{-0.125ex}{\Large\tikz{\pic {tick_box};}} & \raisebox{-0.125ex}{\Large\tikz{\pic {tick_box};}} & \raisebox{-0.125ex}{\Large\tikz{\pic {tick_box};}} & \raisebox{-0.125ex}{\Large\tikz{\pic {tick_box};}}\end{tabular}}};
+}}
+
+\tikzset{scorecard/.pic={
+	\node[draw, thick, rounded corners=3mm, minimum height=0.5in, anchor=north, minimum width=2.25in, align=center] at (0, 1.625in) {\setmainfont{Graduate}\Huge Score};
+	\pic at (0, 1in) {roundscoreblock={Round 1}};
+	\pic at (0,0.08333333333333337in) {roundscoreblock={Round 2}};
+	\pic at (0,-0.8333333333333334in) {roundscoreblock={Round 3}};
+
+	\pic at (0,0) {cutguide={#1}};
+}}
+
+\tikzset{roundscoreblock/.pic={
+	\node[draw, thick, rounded corners=3mm, minimum height = 0.7916666666666666in, text width=2.0in, minimum width=2.25in, anchor=north, align=center, inner sep=0pt] at (0, 0) {
+	{\rule{0.0ex}{2ex}\Large #1}\normalsize
+	
+	\medskip
+	
+	\begin{tabular}{@{\hskip -0.1875ex}c@{\hskip 0.5em}c@{\hskip 0.5em}c@{\hskip 0.5em}c@{\hskip 0.5em}c@{\hskip 0.5em}c@{\hskip 0.5em}c@{\hskip 0.5em}c@{\hskip 0.5em}c@{\hskip 0.5em}c}
+	{\Large\tikz{\pic {tick_box};}} & {\Large\tikz{\pic {tick_box};}} & {\Large\tikz{\pic {tick_box};}} & {\Large\tikz{\pic {tick_box};}} & {\Large\tikz{\pic {tick_box};}} & {\Large\tikz{\pic {tick_box};}} & {\Large\tikz{\pic {tick_box};}} & {\Large\tikz{\pic {tick_box};}} & {\Large\tikz{\pic {tick_box};}} & {\Large\tikz{\pic {tick_box};}}\\
+	{\Large\tikz{\pic {tick_box};}} & {\Large\tikz{\pic {tick_box};}} & {\Large\tikz{\pic {tick_box};}} & {\Large\tikz{\pic {tick_box};}} & {\Large\tikz{\pic {tick_box};}} & {\Large\tikz{\pic {tick_box};}} & {\Large\tikz{\pic {tick_box};}} & {\Large\tikz{\pic {tick_box};}} & {\Large\tikz{\pic {tick_box};}} & {\Large\tikz{\pic {tick_box};}}\\
+	\end{tabular}
+	};
+}}
+
+\tikzset{pics/challengestandee/.style n args={2}{%
+	code={
+		\begin{scope}
+		\clip (-\cardwidth/2 - \bleed, 0in) --%
+		      (-\cardwidth/2 - \bleed, \cardheight/2 + \bleed) --%
+		      (\cardwidth/2 + \bleed, \cardheight/2 + \bleed) --%
+		      (\cardwidth/2 + \bleed, -\cardheight/2 - \bleed) --%
+		      (-\cardwidth/2 - \bleed, -\cardheight/2 - \bleed) --%
+		      cycle;
+		\path[fill=white] (-\cardwidth/2 - \bleed, 0in) --%
+		      (-\cardwidth/2 - \bleed, \cardheight/2 + \bleed) --%
+		      (\cardwidth/2 + \bleed, \cardheight/2 + \bleed) --%
+		      (\cardwidth/2 + \bleed, -\cardheight/2 - \bleed) --%
+		      (-\cardwidth/2 - \bleed, -\cardheight/2 - \bleed) --%
+		      cycle;
+
+		% Pattern for card front
+		\pic at (0,0) {#1};	
+		\end{scope}
+		% Cutting guides for corners of the cards	
+		\pic () at (0,0) {cutguide={#2}};
+}}}
+
+\tikzset{pics/challengecard/.style n args={3}{%
+	code={
+		\begin{scope}
+		\clip (-\cardwidth/2 - \bleed, 0in) --%
+		      (-\cardwidth/2 - \bleed, \cardheight/2 + \bleed) --%
+		      (\cardwidth/2 + \bleed, \cardheight/2 + \bleed) --%
+		      (\cardwidth/2 + \bleed, -\cardheight/2 - \bleed) --%
+		      (-\cardwidth/2 - \bleed, -\cardheight/2 - \bleed) --%
+		      cycle;
+		\path[fill=white] (-\cardwidth/2 - \bleed, 0in) --%
+		      (-\cardwidth/2 - \bleed, \cardheight/2 + \bleed) --%
+		      (\cardwidth/2 + \bleed, \cardheight/2 + \bleed) --%
+		      (\cardwidth/2 + \bleed, -\cardheight/2 - \bleed) --%
+		      (-\cardwidth/2 - \bleed, -\cardheight/2 - \bleed) --%
+		      cycle;
+
+		% Pattern for card front
+		\node[text width=2.0in, minimum width=2.25in, text centered, anchor=north, draw, thick, rounded corners=3mm, minimum height=0.5in] () at (0,1.625in) {\setmainfont{Graduate}\Huge #1};
+		\node[text width=2.0in, minimum width=2.25in,, text centered, anchor=north, rotate=180, draw, thick, rounded corners=3mm, minimum height=0.5in] () at (0,-1.625in) {\setmainfont{Graduate}\Huge #1};		
+		\node[draw, thick, minimum width=2.25in, minimum height=2in, rounded corners=3mm] at (0,0) {};%
+		\pic at (0,0) {#2};			
+			
+		\end{scope}
+		% Cutting guides for corners of the cards	
+		\pic () at (0,0) {cutguide={#3}};
+}}}
+
+\tikzset{pics/character_token/.style n args={2}{
+	code={
+	\setmainfont[Scale=3.75]{Tex Gyre Heros-Bold}
+	\node[circle, minimum width=1.5in, draw, black, line width=0.025in, inner sep=0, fill=white] at (0,0) {\includegraphics[height=0.825in]{Images/#2}};
+	\node[draw, ultra thick, #1, line width=0.1875in, circle, minimum width=1.3125in] at (0,0) {};
+
+}}}
+
+\tikzset{pics/effort_token/.style n args={2}{
+	code={
+	\setmainfont[Scale=3.75]{Tex Gyre Heros-Bold}
+	\node[circle, minimum width=1.5in, draw, black, line width=0.025in, inner sep=0, fill=#1] at (0,0) {\Huge \contour{black}{\textcolor{white}{#2}}};
+}}}
+
+\tikzset{pics/tts_character_token/.style n args={2}{
+	code={
+	\setmainfont[Scale=3.75]{Tex Gyre Heros-Bold}
+	\node[draw, ultra thick, #1, line width=0.1in, circle, minimum width=1.3125in, fill=white] at (0,0) {};
+	\node[circle, inner sep=0pt, fill=white] at (0,0) {\includegraphics[height=0.825in]{Images/#2}};
+}}}
+
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+
+
+%\tikzset{pics/competitorcardsimple/.style n args={6}{%
+%	code={
+%		\begin{scope}
+%		\clip (-\cardwidth/2 - \bleed, 0in) --%
+%		      (-\cardwidth/2 - \bleed, \cardheight/2 + \bleed) --%
+%		      (\cardwidth/2 + \bleed, \cardheight/2 + \bleed) --%
+%		      (\cardwidth/2 + \bleed, -\cardheight/2 - \bleed) --%
+%		      (-\cardwidth/2 - \bleed, -\cardheight/2 - \bleed) --%
+%		      cycle;
+%
+%		% Pattern for card front
+%		\node[text width=2in, text centered, anchor=north] () at (0,1.6in) {{\setmainfont{Graduate}\Huge #1}};
+%		\node () at (0,0.125in) {\includegraphics[height=1.75in]{Images/#2}};				
+%		\pic[scale=0.25, transform shape] () at (-0.75in,-1.25in) {#3}; 
+%		\pic[scale=0.25, transform shape] () at (0in, -1.25in) {#4}; 
+%		\pic[scale=0.25, transform shape] () at (0.75in, -1.25in) {#5}; 
+%		\end{scope}
+%		% Cutting guides for corners of the cards	
+%		\pic () at (0,0) {cutguide={#6}};
+%}}}
+%
+%\tikzset{pics/competitorcardfrontprintablealt1/.style n args={7}{%
+%	code={
+%		\begin{scope}
+%		\clip (-\cardwidth/2 - \bleed, 0in) --%
+%		      (-\cardwidth/2 - \bleed, \cardheight/2 + \bleed) --%
+%		      (\cardwidth/2 + \bleed, \cardheight/2 + \bleed) --%
+%		      (\cardwidth/2 + \bleed, -\cardheight/2 - \bleed) --%
+%		      (-\cardwidth/2 - \bleed, -\cardheight/2 - \bleed) --%
+%		      cycle;
+%
+%		% Pattern for card front
+%		\pic () at (0,0) {competitordetails3alt1={#1}{#2}{#3}{#4}{#5}{#6}};			
+%		\end{scope}
+%		% Cutting guides for corners of the cards	
+%		\pic () at (0,0) {cutguide={#7}};
+%}}}
+%
+%\tikzset{pics/competitorcardfrontprintablealt3/.style n args={6}{%
+%	code={
+%		\begin{scope}
+%		\clip (-\cardwidth/2 - \bleed, 0in) --%
+%		      (-\cardwidth/2 - \bleed, \cardheight/2 + \bleed) --%
+%		      (\cardwidth/2 + \bleed, \cardheight/2 + \bleed) --%
+%		      (\cardwidth/2 + \bleed, -\cardheight/2 - \bleed) --%
+%		      (-\cardwidth/2 - \bleed, -\cardheight/2 - \bleed) --%
+%		      cycle;
+%		\path[fill=white] (-\cardwidth/2 - \bleed, 0in) --%
+%		      (-\cardwidth/2 - \bleed, \cardheight/2 + \bleed) --%
+%		      (\cardwidth/2 + \bleed, \cardheight/2 + \bleed) --%
+%		      (\cardwidth/2 + \bleed, -\cardheight/2 - \bleed) --%
+%		      (-\cardwidth/2 - \bleed, -\cardheight/2 - \bleed) --%
+%		      cycle;
+%
+%		% Pattern for card front
+%		\pic () at (0,0) {competitordetails3alt3={#1}{#2}{#3}{#4}{#5}};
+%		\pic () at (0,-1.625in) {personality2};
+%	
+%		\end{scope}
+%		% Cutting guides for corners of the cards	
+%		\pic () at (0,0) {cutguide={#6}};
+%}}}
+%
+%\tikzset{pics/competitorcardfrontprintablealt4/.style n args={6}{%
+%	code={
+%		\begin{scope}
+%		\clip (-\cardwidth/2 - \bleed, 0in) --%
+%		      (-\cardwidth/2 - \bleed, \cardheight/2 + \bleed) --%
+%		      (\cardwidth/2 + \bleed, \cardheight/2 + \bleed) --%
+%		      (\cardwidth/2 + \bleed, -\cardheight/2 - \bleed) --%
+%		      (-\cardwidth/2 - \bleed, -\cardheight/2 - \bleed) --%
+%		      cycle;
+%		\path[fill=white] (-\cardwidth/2 - \bleed, 0in) --%
+%		      (-\cardwidth/2 - \bleed, \cardheight/2 + \bleed) --%
+%		      (\cardwidth/2 + \bleed, \cardheight/2 + \bleed) --%
+%		      (\cardwidth/2 + \bleed, -\cardheight/2 - \bleed) --%
+%		      (-\cardwidth/2 - \bleed, -\cardheight/2 - \bleed) --%
+%		      cycle;
+%
+%		% Pattern for card front
+%		\pic () at (0,0) {competitordetails3alt4={#1}{#2}{#3}{#4}{#5}};
+%	
+%		\end{scope}
+%		% Cutting guides for corners of the cards	
+%		\pic () at (0,0) {cutguide={#6}};
+%}}}
+%
+%\tikzset{pics/competitorcardfrontprintablealt5/.style n args={6}{%
+%	code={
+%		\begin{scope}
+%		\clip (-\cardwidth/2 - \bleed, 0in) --%
+%		      (-\cardwidth/2 - \bleed, \cardheight/2 + \bleed) --%
+%		      (\cardwidth/2 + \bleed, \cardheight/2 + \bleed) --%
+%		      (\cardwidth/2 + \bleed, -\cardheight/2 - \bleed) --%
+%		      (-\cardwidth/2 - \bleed, -\cardheight/2 - \bleed) --%
+%		      cycle;
+%		\path[fill=white] (-\cardwidth/2 - \bleed, 0in) --%
+%		      (-\cardwidth/2 - \bleed, \cardheight/2 + \bleed) --%
+%		      (\cardwidth/2 + \bleed, \cardheight/2 + \bleed) --%
+%		      (\cardwidth/2 + \bleed, -\cardheight/2 - \bleed) --%
+%		      (-\cardwidth/2 - \bleed, -\cardheight/2 - \bleed) --%
+%		      cycle;
+%
+%		% Pattern for card front
+%		\pic () at (0,0) {competitordetails3alt5={#1}{#2}{#3}{#4}{#5}};
+%	
+%		\end{scope}
+%		% Cutting guides for corners of the cards	
+%		\pic () at (0,0) {cutguide={#6}};
+%}}}
+%
+%\tikzset{pics/competitorcardfrontprintablealt6/.style n args={7}{%
+%	code={
+%		\begin{scope}
+%		\clip (-\cardwidth/2 - \bleed, 0in) --%
+%		      (-\cardwidth/2 - \bleed, \cardheight/2 + \bleed) --%
+%		      (\cardwidth/2 + \bleed, \cardheight/2 + \bleed) --%
+%		      (\cardwidth/2 + \bleed, -\cardheight/2 - \bleed) --%
+%		      (-\cardwidth/2 - \bleed, -\cardheight/2 - \bleed) --%
+%		      cycle;
+%		\path[fill=white] (-\cardwidth/2 - \bleed, 0in) --%
+%		      (-\cardwidth/2 - \bleed, \cardheight/2 + \bleed) --%
+%		      (\cardwidth/2 + \bleed, \cardheight/2 + \bleed) --%
+%		      (\cardwidth/2 + \bleed, -\cardheight/2 - \bleed) --%
+%		      (-\cardwidth/2 - \bleed, -\cardheight/2 - \bleed) --%
+%		      cycle;
+%
+%		% Pattern for card front
+%		\pic () at (0,0) {competitordetails3alt6={#1}{#2}{#3}{#4}{#5}{#6}};
+%	
+%		\end{scope}
+%		% Cutting guides for corners of the cards	
+%		\pic () at (0,0) {cutguide={#7}};
+%}}}
+%
+%\tikzset{pics/competitordetails3alt1/.style n args={6}{
+%	code={
+%		% Pattern for card front
+%		\node[text width=2in, text centered, anchor=north] () at (0,1.66in) {{\setmainfont{Orbitron-Bold}\Huge #1}};
+%		\node[text width=2in, text centered, anchor=north] () at (0, 1.3in) {{\setmainfont{Orbitron}\large #2}};
+%		\node () at (0,0in) {\includegraphics[height=1.75in]{Images/#3}};				
+%		\pic[scale=0.25, transform shape] () at (-0.75in,-1.325in) {#4}; 
+%		\pic[scale=0.25, transform shape] () at (0in, -1.325in) {#5}; 
+%		\pic[scale=0.25, transform shape] () at (0.75in, -1.325in) {#6}; 
+%}}}
+%
+%
+%\tikzset{pics/competitordetails3alt3/.style n args={5}{
+%	code={
+%		% Pattern for card front
+%		\node[text width=2in, minimum width=2.25in, minimum height=0.5in, text centered, anchor=north, draw, thick, rounded corners=3mm, inner sep=0.125in] () at (0,1.625in) {{\setmainfont{Graduate}\Huge #1}};
+%
+%		\node[draw, thick, rounded corners=3mm, anchor=east, minimum height=1.75in, minimum width=1.5in] () at (1.125in,0.125in) {};	
+%		\node[anchor=east, minimum height=1.75in, minimum width=1.5in] () at (1.125in,0.125in) {\includegraphics[height=1.5in]{Images/#2}};	
+%		\node[draw, thick, rounded corners=3mm, inner sep=0.125in, anchor=west, minimum height=1.75in, minimum width=0.625in] () at (-1.125in,0.125in) {};%\includegraphics[height=1.5in]{Images/#2}};				
+%		{\Large	
+%		\pic[scale=0.25, transform shape, anchor=north, inner sep=0pt] (a) at (-0.8125in, 0.875in) {#3}; 
+%		\pic[transform shape] () at (-0.8125in, 0.65625in) {{tick_box}}; 
+%		\pic[scale=0.25, transform shape, inner sep=0pt] () at (-0.8125in, 0.125in) {#4}; 
+%		\pic[transform shape] () at (-0.8125in, 0.125in) {{tick_box}}; 
+%		\pic[scale=0.25, transform shape, anchor=south, inner sep=0pt] () at (-0.8125in, -0.625in) {#5};
+%		\pic[transform shape] () at (-0.8125in, -0.40625in) {{tick_box}}; 
+%		}
+%}}}
+%
+%\tikzset{pics/competitordetails3alt4/.style n args={5}{
+%	code={
+%			% Pattern for card front
+%		\node[text width=2in, minimum width=2.25in, minimum height=0.5in, text centered, draw, thick, rounded corners=3mm] () at (0in,1.375in) {{\setmainfont{Graduate}\Huge #1}};
+%		\node[draw, thick, rounded corners=3mm, minimum height=1.75in, minimum width=1.5in] () at (0.375in,0.125in) {};	
+%		\node[minimum height=1.75in, minimum width=1.5in, inner sep=0pt] () at (0.375in,0.125in) {\includegraphics[height=1.5in]{Images/#2}};	
+%		\node[draw, thick, rounded corners=3mm, inner sep=0.125in, minimum height=2.625in, minimum width=0.625in] () at (-0.8125in,-0.3125in) {};%\includegraphics[height=1.5in]{Images/#2}};		
+%		
+%		
+%		\node[draw, thick, rounded corners=3mm, minimum width=1.5in, minimum height=0.75in, inner sep=0pt] at (0.375in, -1.25in) {
+%{\setmainfont{Graduate}\normalsize
+%	\begin{tabular}{@{\hskip 0.4em}l@{\hskip 0.75em}c@{\hskip 0.25em}c@{\hskip 0.25em}c@{\hskip 0.25em}c@{\hskip 0.6em}}
+%	{\rule{0.0ex}{2ex}\large Brave} & \raisebox{-0.125ex}{\Large\tikz{\pic {tick_box};}} & \raisebox{-0.125ex}{\Large\tikz{\pic {tick_box};}} & \raisebox{-0.125ex}{\Large\tikz{\pic {tick_box};}} & \raisebox{-0.125ex}{\Large\tikz{\pic {tick_box};}}\\
+%	{\large Smart} & \raisebox{-0.125ex}{\Large\tikz{\pic {tick_box};}} & \raisebox{-0.125ex}{\Large\tikz{\pic {tick_box};}} & \raisebox{-0.125ex}{\Large\tikz{\pic {tick_box};}} & \raisebox{-0.125ex}{\Large\tikz{\pic {tick_box};}}\\
+%	{\large Tough} & \raisebox{-0.125ex}{\Large\tikz{\pic {tick_box};}} & \raisebox{-0.125ex}{\Large\tikz{\pic {tick_box};}} & \raisebox{-0.125ex}{\Large\tikz{\pic {tick_box};}} & \raisebox{-0.125ex}{\Large\tikz{\pic {tick_box};}}\end{tabular}
+%}};
+%
+%		\pic[scale=1] () at (-0.8125in, 0.625in) {#3}; 
+%		\pic[scale=1] () at (-0.8125in, -0.175in) {#4}; 
+%		\pic[scale=1] () at (-0.8125in, -0.975in) {#5};
+%}}}
+%
+%\tikzset{pics/competitordetails3alt5/.style n args={5}{
+%	code={
+%		% Pattern for card front
+%		\node[text width=2in, minimum width=2.25in, minimum height=0.5in, text centered, draw, thick, rounded corners=3mm] () at (0in,1.375in) {{\setmainfont{Graduate}\Huge #1}};
+%		\node[draw, thick, rounded corners=3mm, minimum height=1.75in, minimum width=1.5in] () at (0.375in,0.125in) {};	
+%		\node[minimum height=1.75in, minimum width=1.5in, inner sep=0pt] () at (0.375in,0.125in) {\includegraphics[height=1.5in]{Images/#2}};	
+%		\node[draw, thick, rounded corners=3mm, inner sep=0.125in, minimum height=1.75in, minimum width=0.625in] () at (-0.8125in,0.125in) {};%\includegraphics[height=1.5in]{Images/#2}};		
+%		\node[draw, thick, rounded corners=3mm, minimum width=0.625in, minimum height=0.75in, inner sep=0pt] at (-0.8125in, -1.25in) {
+%		{\setmainfont{Graduate}\normalsize
+%	\begin{tabular}{@{\hskip 0.375em}c@{\hskip 0.75em}c@{\hskip 0.0em}}
+%	\rule{0.0ex}{2ex}\raisebox{-0.125ex}{\Large\tikz{\pic {tick_box};}} & \raisebox{-0.125ex}{\Large\tikz{\pic {tick_box};}}\\
+%	\raisebox{-0.125ex}{\Large\tikz{\pic {tick_box};}} & \raisebox{-0.125ex}{\Large\tikz{\pic {tick_box};}}\\
+%	\raisebox{-0.125ex}{\Large\tikz{\pic {tick_box};}} & \raisebox{-0.125ex}{\Large\tikz{\pic {tick_box};}}\end{tabular}
+%}
+%		};
+%		
+%		
+%		\node[draw, thick, rounded corners=3mm, minimum width=1.5in, minimum height=0.75in, inner sep=0pt] at (0.375in, -1.25in) {
+%{\setmainfont{Graduate}\normalsize
+%	\begin{tabular}{@{\hskip 0.4em}l@{\hskip 0.75em}c@{\hskip 0.75em}c@{\hskip 0.75em}c@{\hskip 0.6em}}
+%	{\rule{0.0ex}{2ex}\large Brave} & \raisebox{-0.125ex}{\Large\tikz{\pic {tick_box};}} & \raisebox{-0.125ex}{\Large\tikz{\pic {tick_box};}} & \raisebox{-0.125ex}{\Large\tikz{\pic {tick_box};}}\\
+%	{\large Smart} & \raisebox{-0.125ex}{\Large\tikz{\pic {tick_box};}} & \raisebox{-0.125ex}{\Large\tikz{\pic {tick_box};}} & \raisebox{-0.125ex}{\Large\tikz{\pic {tick_box};}}\\
+%	{\large Tough} & \raisebox{-0.125ex}{\Large\tikz{\pic {tick_box};}} & \raisebox{-0.125ex}{\Large\tikz{\pic {tick_box};}} & \raisebox{-0.125ex}{\Large\tikz{\pic {tick_box};}}\end{tabular}
+%}};
+%		\pic[scale=0.25, transform shape, anchor=north] () at (-0.8125in, 0.875in) {#3}; 
+%		\pic[scale=0.25, transform shape] () at (-0.8125in, 0.125in) {#4}; 
+%		\pic[scale=0.25, transform shape, anchor=south] () at (-0.8125in, -0.625in) {#5};
+%}}}
+%
+%\tikzset{pics/competitordetails3alt6/.style n args={6}{
+%	code={
+%			% Pattern for card front
+%		\node[text width=1.25in, minimum width=1.5in, minimum height=0.5in, text centered, draw, thick, rounded corners=3mm] () at (0.375in,1.375in) {{\setmainfont{Graduate}\Huge #1}};
+%		\node[draw, thick, rounded corners=3mm, minimum height=1.75in, minimum width=1.5in] () at (0.375in,0.125in) {};	
+%		\node[minimum height=1.75in, minimum width=1.5in, inner sep=0pt] () at (0.375in,0.125in) {\includegraphics[height=1.5in]{Images/#2}};	
+%		\node[draw, thick, rounded corners=3mm, inner sep=0.125in, minimum height=3.25in, minimum width=0.625in] () at (-0.8125in,0in) {};%\includegraphics[height=1.5in]{Images/#2}};		
+%		
+%		
+%		\node[draw, thick, rounded corners=3mm, minimum width=1.5in, minimum height=0.75in, inner sep=0pt] at (0.375in, -1.25in) {
+%{\setmainfont{Graduate}\normalsize
+%	\begin{tabular}{@{\hskip 0.4em}l@{\hskip 0.75em}c@{\hskip 0.25em}c@{\hskip 0.25em}c@{\hskip 0.25em}c@{\hskip 0.6em}}
+%	{\rule{0.0ex}{2ex}\large Brave} & \raisebox{-0.125ex}{\Large\tikz{\pic {tick_box};}} & \raisebox{-0.125ex}{\Large\tikz{\pic {tick_box};}} & \raisebox{-0.125ex}{\Large\tikz{\pic {tick_box};}} & \raisebox{-0.125ex}{\Large\tikz{\pic {tick_box};}}\\
+%	{\large Smart} & \raisebox{-0.125ex}{\Large\tikz{\pic {tick_box};}} & \raisebox{-0.125ex}{\Large\tikz{\pic {tick_box};}} & \raisebox{-0.125ex}{\Large\tikz{\pic {tick_box};}} & \raisebox{-0.125ex}{\Large\tikz{\pic {tick_box};}}\\
+%	{\large Tough} & \raisebox{-0.125ex}{\Large\tikz{\pic {tick_box};}} & \raisebox{-0.125ex}{\Large\tikz{\pic {tick_box};}} & \raisebox{-0.125ex}{\Large\tikz{\pic {tick_box};}} & \raisebox{-0.125ex}{\Large\tikz{\pic {tick_box};}}\end{tabular}
+%}};
+%
+%		\pic[scale=1] () at (-0.8125in, 1.31in) {#3}; 
+%		\pic[scale=1] () at (-0.8125in, 0.52in) {#4}; 
+%		\pic[scale=1] () at (-0.8125in, -0.27in) {#5}; 
+%		\pic[scale=1] () at (-0.8125in, -1.06in) {#6};
+%}}}
+%
+%\tikzset{pics/competitordetails4/.style n args={6}{
+%	code={
+%		% Pattern for card front
+%		\node[text width=2in, text centered, anchor=north] () at (0,1.66in) {#1};
+%		\node at (0,0.125in) {\includegraphics[height=1.75in]{Images/#2}};				
+%		\node[draw, ultra thick, anchor=south east, minimum width=0.5in, minimum height=0.5in] at (-0.5in, -1.55in) {#3};
+%		\node[draw, ultra thick, anchor=south east, minimum width=0.5in, minimum height=0.5in] at (0in, -1.55in) {#4};
+%		\node[draw, ultra thick, anchor=south east, minimum width=0.5in, minimum height=0.5in] at (0.5in, -1.55in) {#5};
+%		\node[draw, ultra thick, anchor=south east, minimum width=0.5in, minimum height=0.5in] at (1in, -1.55in) {#6};
+%}}}
+%
+%\tikzset{red_gem2/.pic={
+%	\node at (0,0) {\includegraphics[height=0.4375in]{Images/red_gem.png}};
+%\setmainfont{Graduate}\normalsize
+%	\pic at (-1.25em, -0.375in) {tick_box};
+%	\pic at (0, -0.375in) {tick_box};
+%	\pic at (1.25em, -0.375in) {tick_box};
+%}}
+%
+%\tikzset{black_gem2/.pic={
+%	\node at (0,0) {\includegraphics[height=0.4375in]{Images/black_gem.png}};
+%\setmainfont{Graduate}\normalsize
+%	\pic at (-1.25em, -0.375in) {tick_box};
+%	\pic at (0, -0.375in) {tick_box};
+%	\pic at (1.25em, -0.375in) {tick_box};
+%}}
+%
+%\tikzset{blue_gem2/.pic={
+%	\node at (0,0) {\includegraphics[height=0.4375in]{Images/blue_gem2.png}};
+%\setmainfont{Graduate}\normalsize
+%	\pic at (-1.25em, -0.375in) {tick_box};
+%	\pic at (0, -0.375in) {tick_box};
+%	\pic at (1.25em, -0.375in) {tick_box};
+%}}
+%
+%\tikzset{green_gem2/.pic={
+%	\node at (0,0) {\includegraphics[height=0.4375in]{Images/green_gem2.png}};
+%\setmainfont{Graduate}\normalsize
+%	\pic at (-1.25em, -0.375in) {tick_box};
+%	\pic at (0, -0.375in) {tick_box};
+%	\pic at (1.25em, -0.375in) {tick_box};
+%}}
+%
+%\tikzset{yellow_gem/.pic={
+%	\node at (0,0) {\includegraphics[height=1.75in]{Images/yellow_gem.png}};
+%}}
+%
+%\tikzset{orange_gem/.pic={
+%	\node at (0,0) {\includegraphics[height=1.75in]{Images/orange_gem.png}};
+%}}
+%
+%\tikzset{purple_gem/.pic={
+%	\node at (0,0) {\includegraphics[height=1.75in]{Images/purple_gem.png}};
+%}}
