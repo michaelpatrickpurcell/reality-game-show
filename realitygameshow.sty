@@ -67,7 +67,6 @@
 	\foreach \i in {-1.375in, -1.125in, -0.875in,-0.625in, -0.375in, -0.125in, 0.125in, 0.375in, 0.625in, 0.875in, 1.125in, 1.375in}
 		\foreach \j in {-1.875in, -1.625in, -1.375in, -1.125in, -0.875in, -0.625in, -0.375in, -0.125in, 0.125in, 0.375in, 0.625in, 0.875in, 1.125in, 1.375in, 1.625in, 1.875in}
 			\draw[thick, #1] (\i,\j) circle (0.105in);
-
 }}
 
 \tikzset{tick_box/.pic={\setmainfont{Graduate}\Large
@@ -215,18 +214,33 @@
 	{\large Tough} & \raisebox{-0.125ex}{\Large\tikz{\pic {tick_box};}} & \raisebox{-0.125ex}{\Large\tikz{\pic {tick_box};}} & \raisebox{-0.125ex}{\Large\tikz{\pic {tick_box};}} & \raisebox{-0.125ex}{\Large\tikz{\pic {tick_box};}} & \raisebox{-0.125ex}{\Large\tikz{\pic {tick_box};}}\end{tabular}}};
 }}
 
-\tikzset{scorecard/.pic={
-	\node[draw, thick, rounded corners=3mm, minimum height=0.5in, anchor=north, minimum width=2.25in, align=center] at (0, 1.625in) {\setmainfont{Graduate}\Huge Score};
+\tikzset{pics/scorecard/.style n args={2}{%
+	code={
+			\begin{scope}
+		\clip (-\cardwidth/2 - \bleed, 0in) --%
+		      (-\cardwidth/2 - \bleed, \cardheight/2 + \bleed) --%
+		      (\cardwidth/2 + \bleed, \cardheight/2 + \bleed) --%
+		      (\cardwidth/2 + \bleed, -\cardheight/2 - \bleed) --%
+		      (-\cardwidth/2 - \bleed, -\cardheight/2 - \bleed) --%
+		      cycle;
+		\path[fill=#1] (-\cardwidth/2 - \bleed, 0in) --%
+		      (-\cardwidth/2 - \bleed, \cardheight/2 + \bleed) --%
+		      (\cardwidth/2 + \bleed, \cardheight/2 + \bleed) --%
+		      (\cardwidth/2 + \bleed, -\cardheight/2 - \bleed) --%
+		      (-\cardwidth/2 - \bleed, -\cardheight/2 - \bleed) --%
+		      cycle;
+
+	\node[draw, thick, fill=white, rounded corners=3mm, minimum height=0.5in, anchor=north, minimum width=2.25in, align=center] at (0, 1.625in) {\setmainfont{Graduate}\Huge Score};
 	\pic at (0, 1in) {roundscoreblock={Round 1}};
 	\pic at (0,0.08333333333333337in) {roundscoreblock={Round 2}};
 	\pic at (0,-0.8333333333333334in) {roundscoreblock={Round 3}};
-
-	\pic at (0,0) {cutguide={#1}};
-}}
+	\end{scope}
+	\pic at (0,0) {cutguide={#2}};
+}}}
 
 \tikzset{roundscoreblock/.pic={
-	\node[draw, thick, rounded corners=3mm, minimum height = 0.7916666666666666in, text width=2.0in, minimum width=2.25in, anchor=north, align=center, inner sep=0pt] at (0, 0) {
-	{\rule{0.0ex}{2ex}\Large #1}\normalsize
+	\node[draw, thick, fill=white, rounded corners=3mm, minimum height = 0.7916666666666666in, text width=2.0in, minimum width=2.25in, anchor=north, align=center, inner sep=0pt] at (0, 0) {
+	{\rule{0.0ex}{2ex}\setmainfont{Graduate}\Large #1}\normalsize
 	
 	\medskip
 	
