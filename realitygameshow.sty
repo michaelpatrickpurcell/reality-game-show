@@ -52,6 +52,23 @@
 	\node at (0,0) {\includegraphics[height=1.75in]{Images/green_gem2.png}};
 }}
 
+\tikzset{heart_suit/.pic={
+	\node at (0,-0.9mm) {\includegraphics[height=0.95in]{Images/heart.png}};
+}}
+
+\tikzset{spade_suit/.pic={
+	\node at (0,0) {\includegraphics[height=1.0in]{Images/spade.png}};
+}}
+
+\tikzset{club_suit/.pic={
+	\node at (0,0) {\includegraphics[height=1.0in]{Images/club.png}};
+}}
+
+\tikzset{diamond_suit/.pic={
+	\node at (0,0) {\includegraphics[height=1.0in]{Images/diamond.png}};
+}}
+
+
 \tikzset{cardbackpattern/.pic={
 	\foreach \i in {-1.25in, -1.0in, -0.75in, -0.5in, -0.25in, 0in, 0.25in, 0.5in, 0.75in, 1.0in, 1.25in}
 		\foreach \j in {-1.75in, -1.5in, -1.25in, -1.0in, -0.75in, -0.5in, -0.25in, 0in, 0.25in, 0.5in, 0.75in, 1.0in, 1.25in, 1.5in, 1.75in}
@@ -323,6 +340,11 @@
 }}}
 
 
+\tikzset{suit_token/.pic={
+	\setmainfont[Scale=3.75]{DejaVu Sans}
+	\node[circle, minimum width=1.5in, draw, black, line width=0.025in, inner sep=0, fill=white] at (0,0) {};
+	\pic at (0,0) {#1};
+}}
 
 
 

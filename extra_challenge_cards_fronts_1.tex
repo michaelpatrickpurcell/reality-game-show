@@ -1,0 +1,22 @@
+\documentclass{standalone}
+
+\usepackage{realitygameshow}
+
+\begin{document}
+\begin{tikzpicture}
+%\Huge
+\path (-105mm, -148.5mm) -- (105mm, 148.5mm);
+\pic at (-\horizdist,\vertdist) {challengecard={Brave}{red_gem}{black}};
+\pic at (0,\vertdist) {challengecard={Smart}{black_gem}{black}};
+\pic at (\horizdist,\vertdist) {challengecard={Tough}{blue_gem}{black}};
+%
+\pic at (-\horizdist,0) {challengecard={Tough}{green_gem}{black}};
+\pic at (0,0) {challengecard={Smart}{red_gem}{black}};
+\pic at (\horizdist,0) {challengecard={Brave}{blue_gem}{black}};
+%
+\pic at (-\horizdist,-\vertdist) {challengecard={Smart}{red_gem}{black}};
+\pic at (0,-\vertdist) {challengecard={Tough}{black_gem}{black}};
+\pic at (\horizdist,-\vertdist) {challengecard={Brave}{blue_gem}{black}};
+
+\end{tikzpicture}
+\end{document}

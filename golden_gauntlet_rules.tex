@@ -1,0 +1,278 @@
+\documentclass[a6paper, 11pt, parskip=half, DIV=15]{scrartcl}
+\usepackage[dvipsnames]{xcolor}
+\definecolor{GauntletGold}{HTML}{DAA527}
+
+\usepackage{tikz}
+
+\usepackage{unicode-math}
+\setmathfont{TexGyreSchola-Math}
+%\usepackage{naughtyornice}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{ragged2e}
+\usepackage{contour}
+
+%\usepackage[margin=0.43in, paperheight=5.25in, paperwidth=3.75in]{geometry}
+
+% Minimize unwanted hyphenation
+\tolerance=1
+\emergencystretch=\maxdimen
+\hyphenpenalty=1
+\hbadness=10000
+
+\usepackage{eso-pic}
+\usepackage{booktabs}
+
+\setkomafont{section}{\setmainfont{Graduate}\LARGE\color{white}\colorbox{GauntletGold}}
+\setkomafont{subsection}{\setmainfont{Graduate}\Large\color{white}\colorbox{GauntletGold}}
+\setkomafont{subsubsection}{\setmainfont{Graduate}\large\color{white}\colorbox{GauntletGold}}
+
+\setkomafont{descriptionlabel}{\setmainfont{Tex Gyre Schola-Bold}\normalsize}
+
+% Adjust spacing before and after section headings
+\RedeclareSectionCommand[
+  runin=false,
+  beforeskip=0.5\baselineskip,
+  afterskip=-0.0\baselineskip
+]{section}
+
+% Adjust spacing before and after subsection headings
+\RedeclareSectionCommand[
+  runin=false,
+  beforeskip=0.5\baselineskip,
+  afterskip=-0.0\baselineskip
+]{subsection}
+
+% Adjust spacing before and after subsubsection headings
+\RedeclareSectionCommand[
+  runin=false,
+  beforeskip=0.5\baselineskip,
+  afterskip=-0.0\baselineskip
+]{subsubsection}
+
+
+\usepackage{enumitem}
+
+\usepackage[hidelinks]{hyperref}
+\usepackage[type={CC}, version={4.0}, modifier={by-sa}]{doclicense} % Add text and icons for creative commons license
+
+\raggedright
+\pagestyle{empty}
+\begin{document}
+
+\begin{titlepage}
+\pagecolor{white}
+\AddToShipoutPictureBG{
+%\begin{tikzpicture}[remember picture, overlay]
+%	\node () at (current page.center) {\includegraphics[width=\pagewidth, height=\pageheight]{Images/aloft_cover_background.png}};
+%	\node () at (current page.center) {\includegraphics[width=\pagewidth, height=\pageheight]{Images/dessert_dice_front_cover_compressed.jpg}};
+%\end{tikzpicture}
+}
+
+\enlargethispage{3\baselineskip}
+\setmainfont[Scale=1.5]{Graduate}
+\Huge
+\begin{center}
+High Five:
+
+\medskip
+
+\normalsize
+The Golden Gauntlet
+
+\vfill
+
+\begin{tikzpicture}
+\node[rotate=-90, transform shape] at (0,0) {\includegraphics[width=1.1\textwidth]{Images/golden_gauntlet.png}};
+\end{tikzpicture}
+
+\vfill
+
+\setmainfont[Scale=1.5]{Playball}
+\large Designed by Michael Purcell
+\end{center}
+\end{titlepage}
+\pagecolor{white}
+
+\setmainfont{Tex Gyre Schola}
+\ClearShipoutPicture
+\enlargethispage{1.75\baselineskip}
+
+%{
+%\begin{center}
+%\setmainfont[Scale=1.5]{Graduate}
+%\Huge
+%High Five
+%
+%\normalsize
+%The Golden Gauntlet
+%\end{center}
+%}
+
+\section*{Overview}
+High Five: The Golden Gauntlet is a two-player strategy game about an elaborate athletics competition that you might see on a reality game show.
+
+This game can be played in about one hour and is designed for players who are at least twelve years old.
+
+During the game you will guide a team of five competitors as they navigate a series of three obstacle courses.
+
+At the end of each round, you will be awarded points based on your team's performance.
+
+Outscore your opponent to win the game and claim the coveted Golden Gauntlet.
+
+\vfill
+
+{
+\hrulefill
+
+\small
+%\textbf{Design}: Michael Purcell\\
+\textbf{Contact}: \href{mailto:mike@armiger.games}{mike@armiger.games}\\
+\textbf{License}: This work is licensed under a\\\phantom{\textbf{License}: }``CC BY-SA 4.0'' license.%\raggedright\doclicenseText
+}
+
+\newpage
+\section*{Components}
+\begin{itemize}[leftmargin=*]
+  \item 18 two-sided cards
+  \begin{itemize}[leftmargin=*]
+  	\item 10 competitor cards
+  	
+  	Each competitor is characterized by the set of colored \emph{gems} on the left-hand side of their card and the \emph{trait matrix} on the bottom of their card.
+  	\item 6 obstacle cards
+  	
+  	Each obstacle is characterized by the \emph{color} of the large gem depicted in the middle of its card and the \emph{trait} written at top and bottom of its card.
+  	\item 2 score cards
+  \end{itemize}
+  \item 18 card sleeves
+  \item 2 whiteboard markers
+  
+  You will use these markers to write on the card sleeves throughout the game. If you prefer, you can instead use pencils to write on the cards directly.
+  \item 30 chits
+  
+  Any set of small items such as coins, wooden cubes, stones, etc. can be used as chits. The chits do not all need to be the same. They should be small enough that three chits can fit comfortably on each card.
+  
+  \item 1 first-player token
+  
+  Any distinctive object can be used as a first-player token. A trophy would be a particularly appropriate choice, the bigger the better.
+  
+  \item 10 competitor tokens
+  
+  If you prefer, you can use chess pieces in place of the competitor tokens.
+  
+  Each player will need two matching pieces (for these purposes, the king and queen are a matched pair) per competitor on their team. 
+  
+  You will place one piece on each competitor card and use the matching piece to track that competitor's position throughout each round.
+\end{itemize}
+
+%\vfill
+%     
+%      \begin{figure}[ht]
+%      \centering
+%      \subcaptionbox*{8 target cards}[0.4\textwidth]{\includegraphics[scale=0.25]{Images/target_card_1_display.png}}\qquad
+%      \subcaptionbox*{7 character cards}[0.4\textwidth]{\includegraphics[scale=0.25]{Images/gingerbread_man_card_display.png}}
+%      \end{figure}
+%      
+%      \vfill
+%	  \begin{figure}[ht]
+%	  \centering      
+%      \subcaptionbox*{3 scoring cards}[0.8\textwidth]{\includegraphics[scale=0.25]{Images/score_card_display.png}}  
+%      \end{figure}
+            
+\newpage
+
+\section*{Set Up}
+\begin{enumerate}[leftmargin=*]
+	\item Place each card inside a card sleeve.
+	\item Give one score card and one whiteboard marker to each player.
+	\item Choose a side of the play area to be ``North''.
+	\item Deal five competitor cards to each player.
+	\item For each competitor card, choose which side you want to use and place the card on the table in front of you  with that side facing up.
+	\item Randomly decide who will go first. Give that player the first-player token.
+	\item Shuffle the challenge cards. Be sure to randomize both the order and the orientations of the cards.
+	\item Place the challenge cards in a single row running from west to east in the middle of the play area.
+	\item Place the competitor tokens for your competitors in the play area just to the south of the westmost challenge card.
+\end{enumerate}
+ 
+\newpage
+
+%\enlargethispage{1.75\baselineskip}
+\section*{Gameplay}
+A complete game consists of three rounds.
+
+During each round, you will your team of competitors will navigate an obstacle course.
+
+%Each round ends as soon as five competitors have faced the final obstacle in that round's obstacle course.
+
+\subsection*{Segments}
+Each round is divided into \emph{segments}.
+
+Starting with the player who has the first-player token, take turns choosing one of your competitors to \emph{face an obstacle}.
+
+%Each competitor must face one obstacle during each segment.
+
+After a competitor faces an obstacle, turn their competitor card sideways to indicate that they are \emph{exhausted}. You may not activate a competitor who is exhausted.
+
+Each segment ends when all of the competitors are exhausted.
+At the end of each segment:
+\begin{enumerate}
+\item Whoever has the first-player token should pass it to the other player.
+\item Restore all of the competitor cards to their original rotations.
+\end{enumerate}
+
+%Restore all of your competitor cards to their original rotations. The competitors are no longer exhausted and may be activated during the next segment.
+
+%When each segment ends, whoever has the first-player token should pass it to the other player. Then, both players should restore all of their competitor cards to their original rotations before beginning the next segment.
+
+\newpage
+\subsection*{Facing Obstacles}
+%On your turn, activate one of your competitors. That competitor will then face the obstacle in the same column as their competitor token.
+
+When one of your competitors faces an obstacle, do the following:
+\begin{enumerate}[leftmargin=*]
+\item Count how many gems on that competitor's card match the color of the obstacle they are facing. Let $m$ denote the number of matches.
+\item Move the competitor forward to the next obstacle. Then, you must either:
+\begin{description}[leftmargin=*]
+\item[Assist Others:] Bring up to $m$ other competitors with you when you move. For every one of your opponent's competitors that you bring with you, you may either:
+\begin{itemize}
+	\item Place one chit on your competitor's card. Each competitor card can have at most three chits on it at any time.
+	\item Mark one trait point on your competitor's card that matches the trait of the obstacle that they faced.
+\end{itemize}
+   \item[Bypass Obstacles:] Spend up to $m$ chits to travel further when you move. Bypass one obstacle per chit spent. 
+\end{description}
+\end{enumerate}
+
+\medskip
+
+%\textbf{Note:} When you decide to Assist Others or Help Yourself, you must bring as many other competitors with you as possible.
+
+\newpage
+\subsubsection*{Round End and Clean Up}
+Each round ends when five competitors have faced the final obstacle. After each round:
+\begin{enumerate}[leftmargin=*]
+\item Award points to the top five finishers.
+\item Remove all chits from all competitor cards.
+\item Perform steps 7-9 of the Set Up to prepare a new obstacle course for the next round.
+\end{enumerate}
+
+\smallskip
+
+%\textbf{Note:} Trait points are cumulative throughout the game. Do not erase trait point marks on the competitor cards between rounds.
+ 
+%\newpage
+%\enlargethispage{1.75\baselineskip}
+\subsubsection*{Scoring}
+At the end of each round, points will be awarded to the top five finishers as follows:
+
+\begin{center}
+\begin{tabular}{lccccc}\toprule
+Place & 1 & 2 & 3 & 4 & 5 \\\midrule
+Points & 5 & 4 & 3 & 2 & 1\\\bottomrule
+\end{tabular}
+\end{center}
+
+Mark the points that you score during each round on your score card.
+
+Furthermore, at the end of Round 3, three points will be awarded to each competitor for each column of their trait matrix that they completed during the game. 
+
+\end{document}
